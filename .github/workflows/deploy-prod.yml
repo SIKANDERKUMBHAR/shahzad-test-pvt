@@ -16,11 +16,24 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: '15.x'
+          cache: 'npm'
 
       - name: Install dependencies
         working-directory: ./codebase/rdicidr-0.1.0
-        run: npm ci
+        run: npm install
+
+      - name: Run ESLint (Linter)
+        working-directory: ./codebase/rdicidr-0.1.0
+        run: npm run lint
+
+      - name: Run Prettier (Formatter)
+        working-directory: ./codebase/rdicidr-0.1.0
+        run: npm run prettier -- --write
+
+      - name: Run Tests (Jest)
+        working-directory: ./codebase/rdicidr-0.1.0
+        run: CI=true npm run test
 
       - name: Build app
         working-directory: ./codebase/rdicidr-0.1.0
